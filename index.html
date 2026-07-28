@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pembelian Kodi & IPTV - Androidrepublica</title>
+  <meta name="description" content="Bayar via QR Pay dan hantar resit di WhatsApp untuk pengaktifan Kodi / IPTV." />
+  <style>
+    :root{--bg:#0b0f14;--card:#111827;--text:#e5e7eb;--muted:#9ca3af;--accent:#25d366;--ok:#34d399;--warn:#f59e0b;}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;background:radial-gradient(1200px 600px at 100% -10%,#1f2937 0%,#0b0f14 60%);color:var(--text);}
+    .wrap{max-width:760px;margin:0 auto;padding:24px;}
+    .card{background:linear-gradient(180deg,#0f172a,#0b1020 50%,#0b0f14);border:1px solid #1f2937;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.35);overflow:hidden}
+    header{padding:22px 22px 10px;border-bottom:1px solid #1f2937;display:flex;align-items:center;gap:14px}
+    .logo{width:44px;height:44px;border-radius:12px;background:#25d366;display:grid;place-items:center;font-weight:700}
+    .logo span{filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));font-size: 20px;}
+    h1{font-size:20px;margin:0}
+    .sub{color:var(--muted);font-size:14px;margin-top:2px}
+    .body{padding:22px;display:grid;gap:20px}
+    .grid{display:grid;grid-template-columns:1fr;gap:18px}
+    @media(min-width:720px){.grid{grid-template-columns:1.2fr .8fr}}
+    .panel{background:rgba(255,255,255,.02);border:1px solid #1f2937;border-radius:16px;padding:16px}
+    .note{color:var(--muted);font-size:14px}
+    input[type="email"], select {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid #1f2937;
+      background: #0b1224;
+      color: var(--text);
+      margin-top: 10px;
+    }
+    .total-price{font-size:20px;font-weight:800;margin-top:10px}
+    .steps{display:grid;gap:10px;margin:10px 0 0}
+    .step{display:flex;gap:10px;align-items:flex-start}
+    .badge{font-variant-numeric:tabular-nums;min-width:26px;height:26px;border-radius:8px;background:#111827;border:1px solid #1f2937;display:grid;place-items:center;color:var(--accent);font-weight:700}
+    .qr{display:grid;place-items:center;padding:10px}
+    .qr img{width:100%;max-width:300px;border-radius:12px;border:1px solid #1f2937;background:#fff}
+    .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+    .btn{appearance:none;border:1px solid #1f2937;background:#0b1224;color:var(--text);padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;}
+    .btn:hover{filter:brightness(1.1)}
+    .btn.primary{background:linear-gradient(180deg,#25d366,#128c7e);border-color:#075e54;color:#fff}
+    .btn.success{background:linear-gradient(180deg,#10b981,#059669);border-color:#047857}
+    .btn.tng{background:linear-gradient(180deg,#0055ab,#003d7a);border-color:#003d7a}
+    .btn img.icon{width:22px;height:22px;object-fit:contain;}
+    .btn svg.icon-svg{width:18px;height:18px;fill:white;}
+    .btn.is-disabled, .btn:disabled {opacity:.5;pointer-events:none;cursor:not-allowed;filter:grayscale(.2);}
+    .meta{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:6px;color:var(--muted);font-size:13px}
+    footer{padding:14px 22px 22px;color:var(--muted);font-size:12px}
+    a{color:var(--accent);text-decoration:none}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <header>
+        <div class="logo"><span>📺</span></div>
+        <div>
+          <h1 id="title">Pembayaran Online: <span>Kodi & IPTV Subscription</span></h1>
+          <div class="sub">Pengaktifan pantas melalui WhatsApp selepas pengesahan bayaran</div>
+        </div>
+      </header>
+
+      <div class="body">
+        <div class="grid">
+          <section class="panel">
+            <div class="total-price">Total: RM <span id="totalPrice">0.00</span></div>
+            <p class="note">Sila pilih pakej Kodi/IPTV, masukkan e-mel anda dan tekan butang WhatsApp untuk menghantar pesanan.</p>
+
+            <div id="item-selection-container"></div>
+            <button id="addItemBtn" class="btn" type="button" style="margin-top:10px;">+ Tambah Pakej Lain</button>
+
+            <input type="email" id="email" placeholder="Alamat E-mel Anda" required />
+            <p class="note">Imbas kod QR untuk pembayaran, kemudian hantar resit melalui WhatsApp.</p>
+
+            <div class="steps">
+              <div class="step"><div class="badge">1</div><div>Buka aplikasi perbankan dan pilih <strong>QR Pay</strong>.</div></div>
+              <div class="step"><div class="badge">2</div><div>Imbas QR code di sebelah dan bayar jumlah tertera.</div></div>
+              <div class="step"><div class="badge">3</div><div>Tekan <strong>Message on WhatsApp</strong> dan hantarkan resit bayaran.</div></div>
+            </div>
+
+            <div class="btns">
+              <a id="waLink" class="btn primary is-disabled" href="https://wa.me/message/WDWZ6UN3PMDOF1" target="_blank" rel="noopener" aria-disabled="true">Message on WhatsApp</a>
+              <button class="btn success" id="paidBtn" type="button" disabled>Hantar Resit Payment</button>
+            </div>
+          </section>
+
+          <aside class="panel qr">
+            <img id="qrImg" src="qr.png" alt="Payment QR Code" />
+            <div class="note" style="text-align:center;margin-top:8px">Sekiranya QR tidak terpapar, <a href="#" id="qrOpen">buka di sini</a>.</div>
+
+            <div style="margin-top:14px; text-align:center; display:flex; flex-direction:column; gap:10px; align-items:center;">
+              <a class="btn tng"
+                 href="https://payment.tngdigital.com.my/sc/bDLnx1yAeB"
+                 target="_blank" rel="noopener"
+                 style="min-width:240px;">
+                <img class="icon" src="https://raw.githubusercontent.com/gnote2minix7/ebooks/refs/heads/main/TNGo.png" alt="TNG Icon">
+                Payment via T&Go
+              </a>
+
+              <a class="btn success"
+                 href="https://buy.stripe.com/cNi28rfiWdkR1fn7hj57W0v"
+                 target="_blank" rel="noopener"
+                 style="min-width:240px;">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+                Card / GrabPay / GPay
+              </a>
+              <div class="note" style="margin-top:6px;">Powered by TNG | Stripe | Google Pay</div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <footer>
+        <div>Perlukan bantuan? Hubungi <a href="https://wa.me/message/WDWZ6UN3PMDOF1" target="_blank" rel="noopener">Androidrepublica di WhatsApp</a>.</div>
+        <div style="margin-top:6px">
+          <div>Dengan membuat pembayaran, anda bersetuju dengan polisi tiada pemulangan wang untuk barangan digital. © <span id="year"></span></div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // ===== CONFIG =====
+    const WHATSAPP_URL = 'https://wa.me/message/WDWZ6UN3PMDOF1';
+    const QR_SRC = 'qr.png';
+    
+    const PRODUCTS = [
+      { category: 'Kodi Addon', value: 'kodi_addon', title: 'Androidrepublica Kodi Addon', price: 30.00 },
+      
+      { category: 'Myiptv4k', value: 'myiptv4k_3m', title: 'Myiptv4k 3 Month', price: 100.00 },
+      { category: 'Myiptv4k', value: 'myiptv4k_6m', title: 'Myiptv4k 6 Month', price: 150.00 },
+      { category: 'Myiptv4k', value: 'myiptv4k_12m', title: 'Myiptv4k 12 Month', price: 250.00 },
+      
+      { category: 'IPTV4K', value: 'iptv4k_6m', title: 'IPTV4K 6 Month', price: 150.00 },
+      { category: 'IPTV4K', value: 'iptv4k_12m', title: 'IPTV4K 12 Month', price: 250.00 },
+      
+      { category: 'SyborgTv', value: 'syborg_1d', title: 'SyborgTv 1 Day', price: 9.00 },
+      { category: 'SyborgTv', value: 'syborg_1m', title: 'SyborgTv 1 Month', price: 16.00 },
+      { category: 'SyborgTv', value: 'syborg_3m', title: 'SyborgTv 3 Month', price: 38.00 },
+      { category: 'SyborgTv', value: 'syborg_6m', title: 'SyborgTv 6 Month', price: 75.00 },
+      { category: 'SyborgTv', value: 'syborg_12m', title: 'SyborgTv 12 Month', price: 120.00 },
+      { category: 'SyborgTv', value: 'syborg_life', title: 'SyborgTv Lifetime', price: 280.00 },
+      
+      { category: 'WDHD', value: 'wdhd_1m', title: 'WDHD 1 Month', price: 30.00 },
+      { category: 'WDHD', value: 'wdhd_3m', title: 'WDHD 3 Month', price: 90.00 },
+      { category: 'WDHD', value: 'wdhd_6m', title: 'WDHD 6 Month', price: 150.00 },
+      { category: 'WDHD', value: 'wdhd_12m', title: 'WDHD 12 Month', price: 250.00 },
+      
+      { category: 'HaoHD', value: 'haohd_c_1m', title: 'HaoHD Pakej C 1 Month', price: 40.00 },
+      { category: 'HaoHD', value: 'haohd_c_3m', title: 'HaoHD Pakej C 3 Month', price: 110.00 },
+      { category: 'HaoHD', value: 'haohd_c_6m', title: 'HaoHD Pakej C 6 Month', price: 150.00 }
+    ];
+
+    const waLinkEl = document.getElementById('waLink');
+    const qrImgEl = document.getElementById('qrImg');
+    const qrOpenEl = document.getElementById('qrOpen');
+    const itemContainer = document.getElementById('item-selection-container');
+    const totalPriceElement = document.getElementById('totalPrice');
+    const addItemBtn = document.getElementById('addItemBtn');
+    const paidBtn = document.getElementById('paidBtn');
+    const emailInput = document.getElementById('email');
+
+    if (qrImgEl) qrImgEl.src = QR_SRC;
+
+    if (qrOpenEl) {
+      qrOpenEl.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.open(QR_SRC, '_blank', 'noopener');
+      });
+    }
+
+    function createSelect() {
+      const select = document.createElement('select');
+      select.required = true;
+      select.style.marginTop = '10px';
+
+      const defaultOption = document.createElement('option');
+      defaultOption.value = '';
+      defaultOption.textContent = 'Pilih pakej anda';
+      defaultOption.disabled = true;
+      defaultOption.selected = true;
+      select.appendChild(defaultOption);
+
+      const groups = {};
+
+      PRODUCTS.forEach(item => {
+        if (!groups[item.category]) {
+          groups[item.category] = document.createElement('optgroup');
+          groups[item.category].label = item.category;
+        }
+
+        const option = document.createElement('option');
+        option.value = item.value;
+        option.textContent = `${item.title} (RM ${item.price.toFixed(2)})`;
+        option.setAttribute('data-price', item.price);
+        groups[item.category].appendChild(option);
+      });
+
+      Object.values(groups).forEach(group => select.appendChild(group));
+      return select;
+    }
+
+    function getSelectedItems() {
+      const allSelects = itemContainer.querySelectorAll('select');
+      const selectedItems = [];
+      allSelects.forEach(select => {
+        const selectedOption = select.selectedOptions[0];
+        if (selectedOption && selectedOption.value) {
+          const title = selectedOption.textContent.split(' (RM')[0];
+          const price = parseFloat(selectedOption.getAttribute('data-price'));
+          selectedItems.push({ title, price });
+        }
+      });
+      return selectedItems;
+    }
+
+    function updateCTAState() {
+      const selectedItems = getSelectedItems();
+      const hasItem = selectedItems.length > 0;
+      const hasValidEmail = !!emailInput && emailInput.value.trim() !== '' && emailInput.checkValidity();
+      const canProceed = hasItem && hasValidEmail;
+
+      if (paidBtn) paidBtn.disabled = !canProceed;
+
+      if (waLinkEl) {
+        waLinkEl.setAttribute('aria-disabled', canProceed ? 'false' : 'true');
+        waLinkEl.classList.toggle('is-disabled', !canProceed);
+      }
+    }
+
+    function calculateTotal() {
+      const selectedItems = getSelectedItems();
+      const total = selectedItems.reduce((sum, item) => sum + item.price, 0);
+
+      if (totalPriceElement) totalPriceElement.textContent = total.toFixed(2);
+      updateCTAState();
+    }
+
+    function validateCheckout(showAlert = true) {
+      const selectedItems = getSelectedItems();
+      if (selectedItems.length === 0) {
+        if (showAlert) alert('Sila pilih sekurang-kurangnya 1 pakej.');
+        return false;
+      }
+
+      const email = (emailInput?.value || '').trim();
+      if (!email) {
+        if (showAlert) alert('Sila masukkan alamat e-mel anda.');
+        return false;
+      }
+
+      if (emailInput && !emailInput.checkValidity()) {
+        if (showAlert) alert('Sila masukkan e-mel yang sah.');
+        return false;
+      }
+
+      return true;
+    }
+
+    function composeMessage() {
+      const email = (emailInput?.value || '').trim();
+      const selectedItems = getSelectedItems();
+
+      const total = selectedItems.reduce((sum, item) => sum + item.price, 0);
+
+      const lines = [
+        'Salam/Hi Androidrepublica, saya nak langgan IPTV/Kodi.',
+        'Senarai Pakej:',
+        ''
+      ];
+
+      selectedItems.forEach(item => {
+        lines.push(`- ${item.title}: RM ${item.price.toFixed(2)}`);
+      });
+
+      lines.push('');
+      lines.push(`Jumlah Bayaran: RM ${total.toFixed(2)}`);
+      lines.push(`Email: ${email}`);
+      lines.push('');
+      lines.push('Resit pembayaran dilampirkan.');
+
+      return encodeURIComponent(lines.join('\n'));
+    }
+
+    function openWhatsAppWithOrder() {
+      if (!validateCheckout(true)) return;
+      const msg = composeMessage();
+      window.open(`${WHATSAPP_URL}?text=${msg}`, '_blank', 'noopener');
+    }
+
+    if (addItemBtn) {
+      addItemBtn.addEventListener('click', () => {
+        const newSelect = createSelect();
+        itemContainer.appendChild(newSelect);
+        newSelect.addEventListener('change', calculateTotal);
+        calculateTotal();
+      });
+    }
+
+    if (emailInput) {
+      emailInput.addEventListener('input', updateCTAState);
+      emailInput.addEventListener('blur', updateCTAState);
+    }
+
+    if (waLinkEl) {
+      waLinkEl.addEventListener('click', (e) => {
+        e.preventDefault();
+        openWhatsAppWithOrder();
+      });
+    }
+
+    if (paidBtn) {
+      paidBtn.addEventListener('click', openWhatsAppWithOrder);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const initialSelect = createSelect();
+      itemContainer.appendChild(initialSelect);
+      initialSelect.addEventListener('change', calculateTotal);
+      calculateTotal();
+    });
+
+    const yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
