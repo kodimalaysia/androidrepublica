@@ -37,11 +37,11 @@
     .qr{display:grid;place-items:center;padding:10px}
     .qr img{width:100%;max-width:300px;border-radius:12px;border:1px solid #1f2937;background:#fff}
     .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
-    .btn{appearance:none;border:1px solid #1f2937;background:#0b1224;color:var(--text);padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;}
+    .btn{appearance:none;border:1px solid #1f2937;background:#0b1224;color:var(--text);padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;width:100%;}
     .btn:hover{filter:brightness(1.1)}
     .btn.primary{background:linear-gradient(180deg,#25d366,#128c7e);border-color:#075e54;color:#fff}
-    .btn.success{background:linear-gradient(180deg,#10b981,#059669);border-color:#047857}
     .btn.tng{background:linear-gradient(180deg,#0055ab,#003d7a);border-color:#003d7a}
+    .btn.success{background:linear-gradient(180deg,#10b981,#059669);border-color:#047857}
     .btn img.icon{width:22px;height:22px;object-fit:contain;}
     .btn svg.icon-svg{width:18px;height:18px;fill:white;}
     .btn.is-disabled, .btn:disabled {opacity:.5;pointer-events:none;cursor:not-allowed;filter:grayscale(.2);}
@@ -67,7 +67,7 @@
             <p class="note">Sila pilih pakej Kodi/IPTV dan tekan butang WhatsApp untuk menghantar pesanan.</p>
 
             <div id="item-selection-container"></div>
-            <button id="addItemBtn" class="btn" type="button" style="margin-top:10px;">+ Tambah Pakej Lain</button>
+            <button id="addItemBtn" class="btn" type="button" style="margin-top:10px; width:auto;">+ Tambah Pakej Lain</button>
 
             <div class="steps">
               <div class="step"><div class="badge">1</div><div>Buka aplikasi perbankan dan pilih <strong>QR Pay</strong>.</div></div>
@@ -77,7 +77,6 @@
 
             <div class="btns">
               <a id="waLink" class="btn primary is-disabled" href="https://wa.me/message/WDWZ6UN3PMDOF1" target="_blank" rel="noopener" aria-disabled="true">Message on WhatsApp</a>
-              <button class="btn success" id="paidBtn" type="button" disabled>Hantar Resit Payment</button>
             </div>
           </section>
 
@@ -89,7 +88,7 @@
               <a class="btn tng"
                  href="https://payment.tngdigital.com.my/sc/bDLnx1yAeB"
                  target="_blank" rel="noopener"
-                 style="min-width:240px;">
+                 style="min-width:240px; width:auto;">
                 <img class="icon" src="https://raw.githubusercontent.com/gnote2minix7/ebooks/refs/heads/main/TNGo.png" alt="TNG Icon">
                 Payment via T&Go
               </a>
@@ -97,7 +96,7 @@
               <a class="btn success"
                  href="https://buy.stripe.com/cNi28rfiWdkR1fn7hj57W0v"
                  target="_blank" rel="noopener"
-                 style="min-width:240px;">
+                 style="min-width:240px; width:auto;">
                 <svg class="icon-svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
                 Card / GrabPay / GPay
               </a>
@@ -131,7 +130,7 @@
       { category: 'IPTV4K', value: 'iptv4k_6m', title: 'IPTV4K 6 Month', price: 150.00 },
       { category: 'IPTV4K', value: 'iptv4k_12m', title: 'IPTV4K 12 Month', price: 250.00 },
       
-      { category: 'SyborgTv', value: 'syborg_1d', title: 'SyborgTv 1 Day', price: 9.00 },
+      { category: 'SyborgTv', value: 'syborg_7d', title: 'SyborgTv 7 Day', price: 9.00 },
       { category: 'SyborgTv', value: 'syborg_1m', title: 'SyborgTv 1 Month', price: 16.00 },
       { category: 'SyborgTv', value: 'syborg_3m', title: 'SyborgTv 3 Month', price: 38.00 },
       { category: 'SyborgTv', value: 'syborg_6m', title: 'SyborgTv 6 Month', price: 75.00 },
@@ -154,7 +153,6 @@
     const itemContainer = document.getElementById('item-selection-container');
     const totalPriceElement = document.getElementById('totalPrice');
     const addItemBtn = document.getElementById('addItemBtn');
-    const paidBtn = document.getElementById('paidBtn');
 
     if (qrImgEl) qrImgEl.src = QR_SRC;
 
@@ -213,8 +211,6 @@
     function updateCTAState() {
       const selectedItems = getSelectedItems();
       const canProceed = selectedItems.length > 0;
-
-      if (paidBtn) paidBtn.disabled = !canProceed;
 
       if (waLinkEl) {
         waLinkEl.setAttribute('aria-disabled', canProceed ? 'false' : 'true');
@@ -281,10 +277,6 @@
         e.preventDefault();
         openWhatsAppWithOrder();
       });
-    }
-
-    if (paidBtn) {
-      paidBtn.addEventListener('click', openWhatsAppWithOrder);
     }
 
     document.addEventListener('DOMContentLoaded', () => {
