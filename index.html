@@ -21,7 +21,7 @@
     @media(min-width:720px){.grid{grid-template-columns:1.2fr .8fr}}
     .panel{background:rgba(255,255,255,.02);border:1px solid #1f2937;border-radius:16px;padding:16px}
     .note{color:var(--muted);font-size:14px}
-    input[type="email"], select {
+    select {
       width: 100%;
       padding: 10px 14px;
       border-radius: 12px;
@@ -31,12 +31,12 @@
       margin-top: 10px;
     }
     .total-price{font-size:20px;font-weight:800;margin-top:10px}
-    .steps{display:grid;gap:10px;margin:10px 0 0}
+    .steps{display:grid;gap:10px;margin:15px 0 0}
     .step{display:flex;gap:10px;align-items:flex-start}
     .badge{font-variant-numeric:tabular-nums;min-width:26px;height:26px;border-radius:8px;background:#111827;border:1px solid #1f2937;display:grid;place-items:center;color:var(--accent);font-weight:700}
     .qr{display:grid;place-items:center;padding:10px}
     .qr img{width:100%;max-width:300px;border-radius:12px;border:1px solid #1f2937;background:#fff}
-    .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+    .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
     .btn{appearance:none;border:1px solid #1f2937;background:#0b1224;color:var(--text);padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;}
     .btn:hover{filter:brightness(1.1)}
     .btn.primary{background:linear-gradient(180deg,#25d366,#128c7e);border-color:#075e54;color:#fff}
@@ -45,7 +45,6 @@
     .btn img.icon{width:22px;height:22px;object-fit:contain;}
     .btn svg.icon-svg{width:18px;height:18px;fill:white;}
     .btn.is-disabled, .btn:disabled {opacity:.5;pointer-events:none;cursor:not-allowed;filter:grayscale(.2);}
-    .meta{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:6px;color:var(--muted);font-size:13px}
     footer{padding:14px 22px 22px;color:var(--muted);font-size:12px}
     a{color:var(--accent);text-decoration:none}
   </style>
@@ -65,13 +64,10 @@
         <div class="grid">
           <section class="panel">
             <div class="total-price">Total: RM <span id="totalPrice">0.00</span></div>
-            <p class="note">Sila pilih pakej Kodi/IPTV, masukkan e-mel anda dan tekan butang WhatsApp untuk menghantar pesanan.</p>
+            <p class="note">Sila pilih pakej Kodi/IPTV dan tekan butang WhatsApp untuk menghantar pesanan.</p>
 
             <div id="item-selection-container"></div>
             <button id="addItemBtn" class="btn" type="button" style="margin-top:10px;">+ Tambah Pakej Lain</button>
-
-            <input type="email" id="email" placeholder="Alamat E-mel Anda" required />
-            <p class="note">Imbas kod QR untuk pembayaran, kemudian hantar resit melalui WhatsApp.</p>
 
             <div class="steps">
               <div class="step"><div class="badge">1</div><div>Buka aplikasi perbankan dan pilih <strong>QR Pay</strong>.</div></div>
@@ -159,7 +155,6 @@
     const totalPriceElement = document.getElementById('totalPrice');
     const addItemBtn = document.getElementById('addItemBtn');
     const paidBtn = document.getElementById('paidBtn');
-    const emailInput = document.getElementById('email');
 
     if (qrImgEl) qrImgEl.src = QR_SRC;
 
@@ -217,9 +212,7 @@
 
     function updateCTAState() {
       const selectedItems = getSelectedItems();
-      const hasItem = selectedItems.length > 0;
-      const hasValidEmail = !!emailInput && emailInput.value.trim() !== '' && emailInput.checkValidity();
-      const canProceed = hasItem && hasValidEmail;
+      const canProceed = selectedItems.length > 0;
 
       if (paidBtn) paidBtn.disabled = !canProceed;
 
@@ -243,31 +236,17 @@
         if (showAlert) alert('Sila pilih sekurang-kurangnya 1 pakej.');
         return false;
       }
-
-      const email = (emailInput?.value || '').trim();
-      if (!email) {
-        if (showAlert) alert('Sila masukkan alamat e-mel anda.');
-        return false;
-      }
-
-      if (emailInput && !emailInput.checkValidity()) {
-        if (showAlert) alert('Sila masukkan e-mel yang sah.');
-        return false;
-      }
-
       return true;
     }
 
     function composeMessage() {
-      const email = (emailInput?.value || '').trim();
       const selectedItems = getSelectedItems();
-
       const total = selectedItems.reduce((sum, item) => sum + item.price, 0);
 
       const lines = [
         'Salam/Hi Androidrepublica, saya nak langgan IPTV/Kodi.',
+        '',
         'Senarai Pakej:',
-        ''
       ];
 
       selectedItems.forEach(item => {
@@ -276,7 +255,6 @@
 
       lines.push('');
       lines.push(`Jumlah Bayaran: RM ${total.toFixed(2)}`);
-      lines.push(`Email: ${email}`);
       lines.push('');
       lines.push('Resit pembayaran dilampirkan.');
 
@@ -296,11 +274,6 @@
         newSelect.addEventListener('change', calculateTotal);
         calculateTotal();
       });
-    }
-
-    if (emailInput) {
-      emailInput.addEventListener('input', updateCTAState);
-      emailInput.addEventListener('blur', updateCTAState);
     }
 
     if (waLinkEl) {
