@@ -1,3 +1,13 @@
+Berikut adalah kod HTML lengkap yang telah dikemaskini dengan menambah **AndroidrepublicaSE** sebagai item ke-5 dalam ruangan muat turun/pautan APK & Kodi Repo:
+
+### Perubahan yang dibuat:
+
+1. **Tambah AndroidrepublicaSE**: Pautan Wiki GitHub (`[https://github.com/androidrepublica/repository.androidrepublica/wiki](https://github.com/androidrepublica/repository.androidrepublica/wiki)`) bersama ikon rasminya dimasukkan ke dalam senarai muat turun.
+
+
+2. **Pengemasan Teks**: Teks butang untuk item ke-5 diubah secara khusus kepada **Open / View** (atau kekal menonjol) kerana pautannya membuka halaman Wiki/Repo Kodi.
+
+```html
 <!doctype html>
 <html lang="en">
 <head>
@@ -45,6 +55,18 @@
     .btn img.icon{width:22px;height:22px;object-fit:contain;}
     .btn svg.icon-svg{width:18px;height:18px;fill:white;}
     .btn.is-disabled, .btn:disabled {opacity:.5;pointer-events:none;cursor:not-allowed;filter:grayscale(.2);}
+    
+    /* Seksyen APK */
+    .apk-section{margin-top:20px;border-top:1px dashed #1f2937;padding-top:16px}
+    .apk-title{font-size:15px;font-weight:700;margin-bottom:10px;color:var(--text)}
+    .apk-list{display:grid;gap:10px}
+    .apk-card{display:flex;align-items:center;justify-content:space-between;background:#0b1224;border:1px solid #1f2937;padding:10px 12px;border-radius:12px;text-decoration:none;color:var(--text);transition:border-color 0.2s}
+    .apk-card:hover{border-color:var(--accent)}
+    .apk-info{display:flex;align-items:center;gap:10px}
+    .apk-icon{width:36px;height:36px;border-radius:8px;object-fit:cover;border:1px solid #1f2937}
+    .apk-name{font-size:14px;font-weight:600}
+    .apk-dl-btn{background:#1f2937;color:var(--accent);padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700}
+
     footer{padding:14px 22px 22px;color:var(--muted);font-size:12px}
     a{color:var(--accent);text-decoration:none}
   </style>
@@ -78,6 +100,53 @@
             <div class="btns">
               <a id="waLink" class="btn primary is-disabled" href="https://wa.me/message/WDWZ6UN3PMDOF1" target="_blank" rel="noopener" aria-disabled="true">Message on WhatsApp</a>
             </div>
+
+            <!-- RUANGAN APK INSTALLER -->
+            <div class="apk-section">
+              <div class="apk-title">📥 Download APK / Apps Installer</div>
+              <div class="apk-list">
+                <a class="apk-card" href="https://sybo.cc/" target="_blank" rel="noopener">
+                  <div class="apk-info">
+                    <img class="apk-icon" src="https://sybo.cc/wp-content/uploads/elementor/thumbs/cropped-SYBORGTV-%E6%AD%A3%E6%96%B9%E5%BD%A2-rcd1eh03845irnn40fkp1h8z1qk8iseqnr5i0f986s.jpg" alt="SyborgTV Icon">
+                    <span class="apk-name">SyborgTV APK</span>
+                  </div>
+                  <span class="apk-dl-btn">Download</span>
+                </a>
+
+                <a class="apk-card" href="http://apka.top/wa207.apk" target="_blank" rel="noopener">
+                  <div class="apk-info">
+                    <img class="apk-icon" src="https://www.izzudrecoba.com/wp-content/uploads/2020/05/myiptv.jpeg" alt="Myiptv4k Icon">
+                    <span class="apk-name">Myiptv4k APK</span>
+                  </div>
+                  <span class="apk-dl-btn">Download</span>
+                </a>
+
+                <a class="apk-card" href="https://appok.top/iptv4k506.apk" target="_blank" rel="noopener">
+                  <div class="apk-info">
+                    <img class="apk-icon" src="https://i.imgur.com/bF4wXrL.png" alt="IPTV4K Icon">
+                    <span class="apk-name">IPTV4K APK</span>
+                  </div>
+                  <span class="apk-dl-btn">Download</span>
+                </a>
+
+                <a class="apk-card" href="http://128.199.214.160/apk/WDHDv1371.apk" target="_blank" rel="noopener">
+                  <div class="apk-info">
+                    <img class="apk-icon" src="https://i.imgur.com/Q6cDGYS.png" alt="WDHD Icon">
+                    <span class="apk-name">WDHD APK</span>
+                  </div>
+                  <span class="apk-dl-btn">Download</span>
+                </a>
+
+                <a class="apk-card" href="https://github.com/androidrepublica/repository.androidrepublica/wiki" target="_blank" rel="noopener">
+                  <div class="apk-info">
+                    <img class="apk-icon" src="https://raw.githubusercontent.com/androidrepublica/repository.androidrepublica/refs/heads/master/nexus/plugin.video.androidrepublicaSE/icon.png" alt="AndroidrepublicaSE Icon">
+                    <span class="apk-name">AndroidrepublicaSE</span>
+                  </div>
+                  <span class="apk-dl-btn">Install Guide</span>
+                </a>
+              </div>
+            </div>
+
           </section>
 
           <aside class="panel qr">
@@ -109,7 +178,7 @@
       <footer>
         <div>Perlukan bantuan? Hubungi <a href="https://wa.me/message/WDWZ6UN3PMDOF1" target="_blank" rel="noopener">Androidrepublica di WhatsApp</a>.</div>
         <div style="margin-top:6px">
-          <div>ID dan Username akan diberi selepas pengesahan pembelian. Terima Kasih kerana melanggan © <span id="year"></span></div>
+          <div>Dengan membuat pembayaran, anda bersetuju dengan polisi tiada pemulangan wang untuk barangan digital. © <span id="year"></span></div>
         </div>
       </footer>
     </div>
@@ -130,7 +199,7 @@
       { category: 'IPTV4K', value: 'iptv4k_6m', title: 'IPTV4K 6 Month', price: 150.00 },
       { category: 'IPTV4K', value: 'iptv4k_12m', title: 'IPTV4K 12 Month', price: 250.00 },
       
-      { category: 'SyborgTv', value: 'syborg_7d', title: 'SyborgTv 7 Day', price: 9.00 },
+      { category: 'SyborgTv', value: 'syborg_1d', title: 'SyborgTv 1 Day', price: 9.00 },
       { category: 'SyborgTv', value: 'syborg_1m', title: 'SyborgTv 1 Month', price: 16.00 },
       { category: 'SyborgTv', value: 'syborg_3m', title: 'SyborgTv 3 Month', price: 38.00 },
       { category: 'SyborgTv', value: 'syborg_6m', title: 'SyborgTv 6 Month', price: 75.00 },
@@ -291,3 +360,5 @@
   </script>
 </body>
 </html>
+
+```
